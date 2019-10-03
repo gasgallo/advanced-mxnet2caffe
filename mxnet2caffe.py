@@ -21,11 +21,12 @@ parser.add_argument('--mx-model',    type=str, default='model_mxnet/face/facega2
 parser.add_argument('--mx-epoch',    type=int, default=0)
 parser.add_argument('--cf-prototxt', type=str, default='model_caffe/face/facega2.prototxt')
 parser.add_argument('--cf-model',    type=str, default='model_caffe/face/facega2.caffemodel')
+parser.add_argument('--input_shape', type=str, default='1,3,640,640')
 args = parser.parse_args()
 
 # ------------------------------------------
 # Create prototxt
-write_prototxt(args.mx_model + '-symbol.json', args.cf_prototxt)
+write_prototxt(args.mx_model + '-symbol.json', args.cf_prototxt, args.input_shape)
 
 # ------------------------------------------
 # Load

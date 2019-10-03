@@ -1,8 +1,7 @@
 import json
 from prototxt_basic import *
 
-
-def write_prototxt(json_path, prototx_path):
+def write_prototxt(json_path, prototx_path, input_shape):
   with open(json_path) as json_file:    
     jdata = json.load(json_file)
     print(jdata)
@@ -42,6 +41,12 @@ def write_prototxt(json_path, prototx_path):
               info["group"] = info["num_output"]
               found = True
         node_i = jdata['nodes'][inputs[0][0]]
+
+      if str(node_i['op']) == 'data':
+      for char in ['[', ']', '(', ')']:
+        input_shape = input_shape.replace(char, '')
+      input_shape = [int(item) for item in input_shape.split(',')]
+      info["shape"] = input_shape
         
       write_node(prototxt_file, info)
   
