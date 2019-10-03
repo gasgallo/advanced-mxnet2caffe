@@ -5,7 +5,7 @@ import math
 attrstr = "attrs"
 #attrstr = "param"
 
-names_output = {"rf_c2_upsampling":256 ,"rf_c3_upsampling":256}
+# names_output = {"rf_c2_upsampling":256 ,"rf_c3_upsampling":256}
 #names_output = {"ssh_m2_red_up":32,"ssh_c3_up":32 }
 
 def data(txt_file, info):
@@ -154,13 +154,13 @@ def Upsampling(txt_file, info):
   print(info[attrstr])
   print(info)
   txt_file.write('  convolution_param {\n')
-  txt_file.write('    num_output: %s\n' % names_output[info["name"]])
+  txt_file.write('    num_output: %s\n' % info["num_output"])
   #txt_file.write('    num_output: %s\n' % info[attrstr]['num_filter'])
   txt_file.write('    kernel_size: %d\n' % (2 * scale - scale % 2))  # TODO
   txt_file.write('    stride: %d\n' % scale)
   txt_file.write('    pad: %d\n' % math.ceil((scale - 1)/2.0))  # TODO
   #txt_file.write('    group: %s\n' % info[attrstr]['num_filter'])
-  txt_file.write('    group: %s\n' % names_output[info["name"]])
+  txt_file.write('    group: %s\n' % info["group"])
 
   txt_file.write('    bias_term: false\n')
   txt_file.write('    weight_filler: {\n')

@@ -35,6 +35,18 @@ with open(args.cf_prototxt, "w") as prototxt_file:
         if not str(input_i['name']).startswith(str(node_i['name'])):
           print('           use shared weight -> %s'% str(input_i['name']))
           info['share'] = True
+
+    if str(node_i['op']) == 'UpSampling':
+      found = False
+      while not found:
+        inputs = node_i['inputs']
+        for j in range(len(inputs)):
+          if 'attrs' in jdata['nodes'][inputs[j][0]]:
+            if 'num_filter' in jdata['nodes'][inputs[j][0]]['attrs']:
+              info["num_output"] = int(jdata['nodes'][inputs[j][0]]['attrs']['num_filter'])
+              info["group"] = info["num_output"]
+              found = True
+        node_i = jdata['nodes'][inputs[0][0]]
       
     write_node(prototxt_file, info)
 
